@@ -1,0 +1,75 @@
+{
+  "processExceptionReasonList": [
+    "碰、撞傷",
+    "加工方向錯誤/座標看錯",
+    "工件未夾緊/夾持變形",
+    "刀具未鎖緊/電極未鎖緊",
+    "備刀錯誤",
+    "2D/3D不符",
+    "漏加工",
+    "程式錯誤/製程錯誤/加工參數錯誤",
+    "機台未定時校準",
+    "零件設計不良/夾具設計不良",
+    "電極設計不良",
+    "刀具品質不良",
+    "刀具品質耗損",
+    "線材/銅管品質不良",
+    "砂輪選用錯誤",
+    "機台故障"
+  ],
+  "week": [
+    { "name": "一", "value": 1 },
+    { "name": "二", "value": 2 },
+    { "name": "三", "value": 3 },
+    { "name": "四", "value": 4 },
+    { "name": "五", "value": 5 },
+    { "name": "六", "value": 6 },
+    { "name": "日", "value": 0 }
+  ],
+  "BaseUrl": "http://localhost:5000/api/",
+  "Address": "http://localhost:5000/api/",
+  "processExceptionActionList": ["特採", "重新下載", "重新檢測", "報廢重製"],
+  "machiningToolType": [
+    "端銑刀",
+    "圓鼻銑刀",
+    "球銑刀",
+    "锯带",
+    "面铣刀",
+    "侧铣刀",
+    "百叶片",
+    "纤维砂轮",
+    "测量头",
+    "陶瓷砂轮",
+    "金刚修整刀"
+  ],
+  "mqtt": {
+    "url": "ws://localhost:9001/mqtt",
+    "username": "itri",
+    "password": "D200",
+    "customer": "itri"
+  },
+  "rabbitMQ": {
+    "url": "ws://localhost:15674/ws",
+    "username": "itri",
+    "password": "d200"
+  },
+  "default": {
+    "customerId": "itri",
+    "compNo": "D200",
+    "siteNo": "tc"
+  },
+  "customerName": "",
+  "customerNo": "itri",
+  "version": "WDA",
+  "MCS": "ON",
+  "jobReport": "ON",
+  "autoSchedule": "ON",
+  "powerMonitoring": "OFF",
+  "MCSSetting": {
+    "type": "all",
+    "url": "http://192.168.2.30:5000/api/",
+    "OP01": "http://1:5000/api/",
+    "OP02": "http://2:5000/api/",
+    "OP03": "http://3:5000/api/"
+  }
+}
