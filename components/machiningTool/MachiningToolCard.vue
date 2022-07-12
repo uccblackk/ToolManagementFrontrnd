@@ -31,13 +31,14 @@
         ></v-img>
         <v-card-actions>
           <v-progress-linear
-            class="mx-5"
+            class="hover mx-5"
             height="20"
             striped
             :color="
               getUsedColor(usedPercentage(tool.toolLife, tool.elapsedTime))
             "
             :value="usedPercentage()"
+            @click="updateElapsedTime()"
           >
             <strong>{{ usedPercentage() }}%</strong>
           </v-progress-linear>
@@ -102,6 +103,10 @@ export default {
     this.tool = this.toolData;
   },
   methods: {
+    updateElapsedTime() {
+      //console.log("test");
+      this.$emit("updateElapsedTime");
+    },
     bindTool() {
       this.$emit("bind");
     },
@@ -131,4 +136,8 @@ export default {
   }
 };
 </script>
-<style></style>
+<style>
+.hover:hover {
+  cursor: pointer;
+}
+</style>

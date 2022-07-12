@@ -64,21 +64,21 @@
                       required
                     ></v-select>
                   </v-col>
-                  <v-col cols="6" sm="6" md="6">
+                  <v-col cols="6" sm="6" md="3">
                     <v-text-field
                       ref="toolDiameter"
                       :label="$t('toolDiameter')"
                       v-model="editToolForm.toolDiameter"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="6" sm="6" md="6">
+                  <v-col cols="6" sm="6" md="3">
                     <v-text-field
                       ref="toolTipRadius"
                       :label="$t('toolTipRadius')"
                       v-model="editToolForm.tipRadius"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="4" md="4">
+                  <v-col cols="12" sm="4" md="3">
                     <v-text-field
                       ref="price"
                       :label="$t('price')"
@@ -87,20 +87,28 @@
                       oninput="if(this.value < 0) this.value = 0;"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="4" md="4">
+                  <v-col cols="12" sm="4" md="3">
                     <v-text-field
                       ref="cost"
                       :label="$t('cost')"
                       v-model="editToolForm.cost"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="4" md="4">
+                  <v-col cols="12" sm="4" md="6">
                     <v-text-field
                       ref="toolLife"
-                      :label="$t('toolLife')"
+                      :label="$t('toolLife') + '(min)'"
                       v-model="editToolForm.toolLife"
                     ></v-text-field>
                   </v-col>
+                  <v-col cols="12" sm="4" md="6">
+                    <v-text-field
+                      ref="toolLife"
+                      :label="$t('elapsedTime') + '(min)'"
+                      v-model="editToolForm.elapsedTime"
+                    ></v-text-field>
+                  </v-col>
+
                   <v-col cols="12" sm="6" md="6">
                     <v-text-field
                       ref="notice"
@@ -382,7 +390,7 @@ export default {
           value: "machine.name",
           align: "start",
           sortable: true,
-          width: "5%"
+          width: "100px"
         },
         {
           text: this.$t("No"),
@@ -438,25 +446,25 @@ export default {
           text: this.$t("toolDiameter"),
           value: "toolDiameter",
           sortable: false,
-          width: "6%"
+          width: "100px"
         },
         {
           text: this.$t("toolTipRadius"),
           value: "tipRadius",
           sortable: false,
-          width: "6%"
+          width: "100px"
         },
         {
           text: `${this.$t("toolLife")}(min)`,
           value: "toolLife",
           sortable: false,
-          width: "6%"
+          width: "150px"
         },
         {
           text: `${this.$t("elapsedTime")}(%)`,
           value: "usedPercentage",
           sortable: false,
-          width: "10%"
+          width: "150px"
         },
         {
           text: this.$t("notice"),
@@ -468,14 +476,14 @@ export default {
           text: this.$t("action"),
           value: "action",
           sortable: false,
-          width: "10%"
+          width: "100px"
         },
         {
           text: this.$t("history"),
           value: "data-table-expand",
           align: "center",
           sortable: false,
-          width: "100px"
+          width: "30px"
         }
       ],
       machiningToolLogHeaders: [

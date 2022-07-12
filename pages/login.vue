@@ -22,6 +22,9 @@
         <v-card-actions></v-card-actions>
       </v-card>
     </v-hover>
+    <v-overlay :opacity="opacity">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 
@@ -31,6 +34,7 @@ export default {
   layout: "empty",
   data() {
     return {
+      opacity: 1,
       title: "ToolManagement",
       account: setting.ToolManagement.username,
       password: setting.ToolManagement.password,

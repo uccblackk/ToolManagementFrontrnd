@@ -110,26 +110,8 @@ export default {
   },
   created() {
     this.machine = this.machineData;
-    if (this.machineData.lotWipData != undefined) {
-      this.value =
-        (parseFloat(this.machineData.lotWipData.outQty) /
-          parseFloat(this.machineData.lotWipData.planQty)) *
-        100;
-      if (this.machineData.lotWipData.outQty == null) {
-        this.lotTooltip =
-          "0 / " +
-          this.machineData.lotWipData.planQty +
-          " (出站數量/預計生產數量)";
-      } else {
-        this.lotTooltip =
-          parseFloat(this.machineData.lotWipData.outQty) +
-          " / " +
-          this.machineData.lotWipData.planQty +
-          " (出站數量/預計生產數量)";
-      }
-    }
+
     this.showDeleteButton = this.showDelete;
-    this.getLot();
     this.mqttMSG();
   },
   methods: {
@@ -248,14 +230,16 @@ export default {
       const options = {
         connectTimeout: 40000,
         clientId: this.uuid(),
-        clean: true
+        clean: true,
+        username: setting.mqtt.username,
+        password: setting.mqtt.password
       };
 
       // mqtt连接
       if (!this.mqttClient.connted) {
         this.mqttClient = mqtt.connect(setting.mqtt.url, options);
         this.mqttClient.on("connect", e => {
-          // console.log("连接成功:");
+          console.log("连接成功:");
           this.mqttClient.subscribe(
             `${setting.mqtt.customer}/D200/tc/${this.machine.no}/EqInfo/GetStatus`,
             { qos: 0 },
@@ -276,7 +260,7 @@ export default {
 
         // 链接异常处理
         this.mqttClient.on("error", error => {
-          //  console.log("连接失败:", error);
+          console.log("连接失败:", error);
         });
       }
     }

@@ -48,8 +48,8 @@
   },
   "mqtt": {
     "url": "ws://localhost:9001/mqtt",
-    "username": "itri",
-    "password": "D200",
+    "username": "admin",
+    "password": "admin",
     "customer": "itri"
   },
   "rabbitMQ": {

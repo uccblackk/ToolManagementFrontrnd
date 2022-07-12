@@ -251,6 +251,7 @@
                       :toolData="value"
                       :toolNum="key"
                       @bind="onBindTool(key)"
+                      @updateElapsedTime="updateElapsedTime(value)"
                     />
                   </div>
                 </v-flex>
@@ -260,20 +261,7 @@
         </v-card>
       </div>
       <v-dialog v-model="bindToolDialog" persistent max-width="600px">
-        <template v-slot:activator="{ on, attrs }">
-          <!-- <v-btn
-            v-bind="attrs"
-            v-on="on"
-            class="mt-4"
-            width="100%"
-            @click.stop="bindToolDialog()"
-          >
-            <v-icon left dark>
-              mdi-plus-thick
-            </v-icon>
-            {{ $t("add") }}
-          </v-btn> -->
-        </template>
+        <template v-slot:activator="{ on, attrs }"> </template>
         <v-card ref="form">
           <v-card-title class="info">
             <span class=" headline white--text">
@@ -320,6 +308,56 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="elapsedTimeDialog" persistent max-width="600px">
+        <template v-slot:activator="{ on, attrs }"> </template>
+        <v-card ref="form">
+          <v-card-title class="info">
+            <span class=" headline white--text">
+              {{
+                $t("tool") + $t("elapsedTime") + "-" + updateToolForm.toolNum
+              }}</span
+            >
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-form ref="updateForm" v-model="valid" lazy-validation>
+                <v-row>
+                  <v-col cols="12" sm="12" md="12">
+                    <v-text-field
+                      ref="no"
+                      :label="
+                        '*' +
+                          $t('tool') +
+                          $t('elapsedTime') +
+                          ' ( ' +
+                          $t('toolLife') +
+                          ' : ' +
+                          updateToolForm.toolLife +
+                          ' )'
+                      "
+                      oninput="if(this.value < 0) this.value = 0;"
+                      v-model="updateToolForm.elapsedTime"
+                      required
+                      type="number"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-container>
+            <small>*{{ $t("inputRequired") }}</small>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn class="gray" @click="elapsedTimeDialog = false">{{
+              $t("cancel")
+            }}</v-btn>
+            <v-btn class="info" dark text @click="UpdateTool()">
+              {{ $t("confirm") }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-flex>
   </v-layout>
 </template>
@@ -336,6 +374,8 @@ export default {
   middleware: "auth",
   data() {
     return {
+      elapsedTime: 1,
+      elapsedTimeDialog: false,
       arrayEvents: [],
       alarmChartKey: 0,
       utilizationChartKey: 0,
@@ -384,6 +424,13 @@ export default {
       bindToolForm: {
         no: null,
         toolNum: null
+      },
+      updateToolForm: {
+        no: null,
+        toolLife: null,
+        toolNum: null,
+        elapsedTime: 1,
+        toolData: null
       },
       nameRules: [v => !!v || this.$t("mustInput")],
       noRules: [v => !!v || this.$t("mustInput")],
@@ -677,6 +724,19 @@ export default {
       this.bindToolDialog = true;
       return;
     },
+    showElapsedTimeDialog(toolData) {
+      this.updateToolForm.toolData = toolData;
+      this.updateToolForm.toolNum = toolData.toolNum;
+      this.updateToolForm.toolLife = toolData.toolLife;
+      this.updateToolForm.elapsedTime = toolData.elapsedTime;
+      this.elapsedTimeDialog = true;
+    },
+    updateElapsedTime(toolData) {
+      console.log(toolData);
+      if (toolData != null && toolData != undefined) {
+        this.showElapsedTimeDialog(toolData);
+      }
+    },
     onBindTool(toolNum) {
       const data = this.machineData.toolMagazine[toolNum];
       if (data == null || data == undefined) {
@@ -684,6 +744,37 @@ export default {
       } else {
         this.unbindTool(toolNum);
       }
+    },
+    UpdateTool() {
+      // console.log(this.bindToolForm.no);
+      if (this.updateToolForm.toolData == null) {
+        return;
+      }
+      const token = this.$store.state.authUser.token;
+      this.updateToolForm.toolData.elapsedTime = this.updateToolForm.elapsedTime;
+      this.$axios
+        .post(
+          `/MachiningTool/UpdateElapsedTime`,
+          this.updateToolForm.toolData,
+          {
+            headers: {
+              Authorization: token
+            }
+          }
+        )
+        .then(res => {
+          if (res.data.isSuccess) {
+            this.$swal("", this.$t("editSuccess"), "success");
+          } else {
+            this.$swal("", res.data.msg, "error");
+          }
+        })
+        .then(() => {
+          this.updateMachineData();
+          this.resfreshToolData();
+          this.updateToolForm.toolData = null;
+          this.elapsedTimeDialog = false;
+        });
     },
     bindTool() {
       // console.log(this.bindToolForm.no);
@@ -808,55 +899,39 @@ export default {
   mounted() {
     this.dates = [moment().format("YYYY-MM-DD"), moment().format("YYYY-MM-DD")];
     this.dateRangeText = this.dates[0] + " ~ " + this.dates[1];
-    this.mqttMSG();
-    this.getCurrentJob();
-    this.getTotalLotWipData();
+    // this.mqttMSG();
+    // this.getCurrentJob();
+    // this.getTotalLotWipData();
     this.buttonItems[1].text = this.machineData.name;
   },
   activated() {
-    this.mqttMSG();
-    this.getCurrentJob();
-    this.getTotalLotWipData();
+    // this.mqttMSG();
+    // this.getCurrentJob();
+    // this.getTotalLotWipData();
     this.dates = [moment().format("YYYY-MM-DD"), moment().format("YYYY-MM-DD")];
     this.dateRangeText = this.dates[0] + " ~ " + this.dates[1];
     this.buttonItems[1].text = this.machineData.name;
   },
-  deactivated() {
-    if (this.mqttClient.connected) {
-      this.mqttClient.unsubscribe(
-        `${setting.mqtt.customer}/D200/tc/${this.machineData.no}/EqInfo/GetStatus`,
-        error => {
-          console.log("取消訂閱");
-          if (error) {
-            console.log("Unsubscribe error", error);
-          }
-        }
-      );
-      this.mqttClient.end();
-      this.mqttClient = {
-        connected: false
-      };
-    }
-  },
+  deactivated() {},
   computed: {},
   created() {},
   beforeDestroy() {
     //斷線
-    if (this.mqttClient.connected) {
-      this.mqttClient.unsubscribe(
-        `${setting.mqtt.customer}/D200/tc/${this.machineData.no}/EqInfo/GetStatus`,
-        error => {
-          console.log("取消訂閱");
-          if (error) {
-            console.log("Unsubscribe error", error);
-          }
-        }
-      );
-      this.mqttClient.end();
-      this.mqttClient = {
-        connected: false
-      };
-    }
+    // if (this.mqttClient.connected) {
+    //   this.mqttClient.unsubscribe(
+    //     `${setting.mqtt.customer}/D200/tc/${this.machineData.no}/EqInfo/GetStatus`,
+    //     error => {
+    //       console.log("取消訂閱");
+    //       if (error) {
+    //         console.log("Unsubscribe error", error);
+    //       }
+    //     }
+    //   );
+    //   this.mqttClient.end();
+    //   this.mqttClient = {
+    //     connected: false
+    //   };
+    // }
   }
 };
 </script>
