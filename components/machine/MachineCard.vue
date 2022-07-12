@@ -11,95 +11,38 @@
           >mdi-close</v-icon
         > -->
       </div>
-      <div class="text-center mt-n0">
-        <v-btn
-          @click="redirectToJobReport()"
-          v-if="lotInfo != '無任務'"
-          text
-          color="primary"
-          x-small
-        >
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <span v-bind="attrs" v-on="on">
-                {{ lotInfo }}
+      <div class="text-center mt-n0" style="text-align:center;width:100%">
+        <v-row no-gutters>
+          <div style="text-align:center;width:100%">
+            <v-avatar
+              v-if="machine.img == null"
+              color="grey darken-1 white--text text-h5"
+              class="mt-1"
+              size="150"
+              dark
+            >
+              <span class="text-truncate" style="max-width: 140px;">
+                {{ machine.name }}
               </span>
-            </template>
-            {{ "報工" }}
-          </v-tooltip>
-        </v-btn>
+            </v-avatar>
+            <v-img
+              v-if="machine.img != null"
+              class="mt-1"
+              :src="machine.img"
+              width="auto"
+              height="150px"
+              contain
+            ></v-img>
+          </div>
+        </v-row>
+        <v-row no-gutters>
+          <div style="text-align:center;width:100%">
+            <v-btn text @click="redirectToDetail()">
+              {{ machine.name }}
+            </v-btn>
+          </div>
+        </v-row>
 
-        <v-btn v-else text x-small>{{ lotInfo }}</v-btn>
-        <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-            <v-progress-linear
-              v-if="lotInfo != '無任務'"
-              :value="value"
-              v-bind="attrs"
-              height="2"
-              v-on="on"
-            ></v-progress-linear>
-          </template>
-          <span>{{ lotTooltip }}</span>
-        </v-tooltip>
-        <v-progress-linear
-          v-if="lotInfo == '無任務'"
-          color="grey lighten-1"
-          height="2"
-          value="0"
-        ></v-progress-linear>
-        <v-avatar
-          v-if="machine.img == null"
-          color="grey darken-1 white--text text-h5"
-          class="mt-1"
-          size="150"
-          dark
-        >
-          <span class="text-truncate" style="max-width: 140px;">
-            {{ machine.name }}
-          </span>
-        </v-avatar>
-        <v-img
-          v-if="machine.img != null"
-          class="mt-1"
-          :src="machine.img"
-          width="auto"
-          height="150px"
-          contain
-        ></v-img>
-        <v-card-actions>
-          <v-img
-            v-if="getMachineStatus() == '1'"
-            :src="require('@/assets/images/machine/status/Run.jpg')"
-            width="100%"
-            height="30"
-            contain
-          ></v-img>
-          <v-img
-            v-else-if="getMachineStatus() == '5'"
-            :src="require('@/assets/images/machine/status/Stop.jpg')"
-            width="100%"
-            height="30"
-            contain
-          ></v-img>
-          <v-img
-            v-else-if="getMachineStatus() == '2'"
-            :src="require('@/assets/images/machine/status/EmergencyStop.jpg')"
-            width="100%"
-            height="30"
-            contain
-          ></v-img>
-          <v-img
-            v-else
-            :src="require('@/assets/images/machine/status/Disconnect.jpg')"
-            width="100%"
-            height="30"
-            contain
-          ></v-img>
-        </v-card-actions>
-        <v-btn text @click="redirectToDetail()">
-          {{ machine.name }}
-        </v-btn>
         <v-tooltip v-if="machine.maintenanceData.length > 0" bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-chip small v-bind="attrs" v-on="on" class="success">

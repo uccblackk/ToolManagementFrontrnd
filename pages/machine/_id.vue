@@ -9,9 +9,9 @@
         </template>
       </v-breadcrumbs>
     </v-flex>
-    <v-flex xs12 md2 class="pa-2">
+    <v-flex xs12 md6 class="pa-2">
       <div style="font-weight:bold">
-        {{ $t("machineStatus") }}
+        {{ $t("equipment") }}
         <v-divider></v-divider>
         <div style="text-align:center">
           <v-avatar
@@ -26,44 +26,20 @@
             </span>
           </v-avatar>
         </div>
-        <v-img
-          v-if="machineData.img != null"
-          class="mt-2"
-          :src="machineData.img"
-          width="100%"
-          height="100%"
-          max-height="150"
-          contain
-        ></v-img>
-        <v-img
-          v-if="getMachineStatus() === '1'"
-          :src="require('@/assets/images/machine/status/Run.jpg')"
-          width="100%"
-          height="30"
-          contain
-        ></v-img>
-        <v-img
-          v-else-if="getMachineStatus() === '5'"
-          :src="require('@/assets/images/machine/status/Stop.jpg')"
-          width="100%"
-          height="30"
-          contain
-        ></v-img>
-        <v-img
-          v-else-if="getMachineStatus() === '2'"
-          :src="require('@/assets/images/machine/status/EmergencyStop.jpg')"
-          width="100%"
-          height="30"
-          contain
-        ></v-img>
-        <v-img
-          v-else
-          :src="require('@/assets/images/machine/status/Disconnect.jpg')"
-          width="100%"
-          height="30"
-          contain
-        ></v-img>
-
+        <div style="text-align:center">
+          <v-img
+            v-if="machineData.img != null"
+            class="mt-2"
+            :src="machineData.img"
+            width="100%"
+            height="100%"
+            max-height="150"
+            contain
+          ></v-img>
+          <span style="width:100%">
+            {{ machineData.name }}
+          </span>
+        </div>
         <v-row>
           <v-col cols="12" style="text-align:center">
             <v-tooltip v-if="machineData.maintenanceData.length > 0" bottom>
@@ -78,293 +54,177 @@
         </v-row>
       </div>
     </v-flex>
-    <v-flex xs12 md2 class="pa-2">
+    <v-flex xs12 md6 class="pa-2">
       <div style="font-weight:bold">
         {{ $t("machineInfo") }}
       </div>
       <v-divider></v-divider>
-      <div class="mt-2">
-        <v-row no-gutters>
-          <v-col md="3">
-            <span class="subtitle-2" style="color: gray"
-              >{{ $t("name") }}:</span
-            >
-          </v-col>
-          <v-col md="9">
-            <span class="subtitle-2" style="color: gray">{{
-              machineData.name
-            }}</span>
-          </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <v-col md="3">
-            <span class="subtitle-2" style="color: gray"
-              >{{ $t("brand") }}:</span
-            >
-          </v-col>
-          <v-col md="9">
-            <span class="subtitle-2" style="color: gray">{{
-              machineData.brand
-            }}</span>
-          </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <v-col md="3">
-            <span class="subtitle-2" style="color: gray"
-              >{{ $t("series") }}:</span
-            >
-          </v-col>
-          <v-col md="9">
-            <span class="subtitle-2" style="color: gray">{{
-              machineData.series
-            }}</span>
-          </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <v-col md="3">
-            <span class="subtitle-2" style="color: gray"
-              >{{ $t("type") }}:</span
-            >
-          </v-col>
-          <v-col md="9">
-            <span class="subtitle-2" style="color: gray">{{
-              machineData.type
-            }}</span>
-          </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <v-col md="3">
-            <span class="subtitle-2" style="color: gray">{{ $t("use") }}:</span>
-          </v-col>
-          <v-col md="9">
-            <span class="subtitle-2" style="color: gray">{{
-              machineData.use
-            }}</span>
-          </v-col>
-        </v-row>
-      </div>
+      <v-row>
+        <v-col cols="6">
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("name") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.name
+              }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("brand") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.brand
+              }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("series") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.series
+              }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("type") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.type
+              }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("use") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.use
+              }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col md="4">
+              <span
+                class="subtitle-2"
+                style="color: gray;font-weight:bold;color:#2E7D32"
+                >{{ $t("machineToolMagazine") + $t("count") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span
+                class="subtitle-2"
+                style="color: gray;font-weight:bold;color:#2E7D32"
+                >{{ Object.keys(machineData.toolMagazine).length }}</span
+              >
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col cols="6">
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("manufature") + $t("country") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.setting.country
+              }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("factoryNo") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.setting.factoryNo
+              }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("factoryDate") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.setting.factoryDate
+              }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("purchasePrice") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.setting.purchasePrice
+              }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("residualValue") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.setting.residualValue
+              }}</span>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col md="4">
+              <span class="subtitle-2" style="color: gray"
+                >{{ $t("description") }}：</span
+              >
+            </v-col>
+            <v-col md="8">
+              <span class="subtitle-2" style="color: gray">{{
+                machineData.notice
+              }}</span>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
     </v-flex>
-    <v-flex xs12 md3 class="pa-2">
-      <div style="font-weight:bold">
-        {{ $t("orderInfo") }}
-      </div>
-      <v-divider></v-divider>
-      <div v-for="(lotWip, index) in lotWipList" :key="lotWip.id">
-        <v-card elevation="2" class="mt-1">
-          <v-system-bar color="success" style="color:white" dark>
-            {{ index + 1 + ". " + $t("jobNo") + " " + lotWip.moData.moNo }}
-            <v-spacer></v-spacer>
-            <span
-              v-if="
-                lotWip.lotOpData.status != 'dispatch' &&
-                  lotWip.lotOpData.status != 'close'
-              "
-              >●{{ $t(lotWip.lotOpData.status) }}</span
-            >
-            <span v-else-if="lotWip.lotOpData.status == 'close'"
-              >●{{ $t("projectClose") }}</span
-            >
-            <span v-else>
-              ●{{ $t("already") }}{{ $t(lotWip.lotOpData.status) }}
-            </span>
 
-            <v-btn icon @click="show = !show">
-              <v-icon>{{
-                show ? "mdi-chevron-up" : "mdi-chevron-down"
-              }}</v-icon>
-            </v-btn>
-          </v-system-bar>
-          <v-expand-transition>
-            <div v-show="show">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-subtitle>
-                    <v-row no-gutters>
-                      <v-col md="8">
-                        <v-tooltip v-if="lotWip.moData.urgent == 'Y'" bottom>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-icon
-                              v-bind="attrs"
-                              v-on="on"
-                              class="mb-3"
-                              large
-                              color="red"
-                            >
-                              mdi-fire-alert
-                            </v-icon>
-                          </template>
-                          {{ $t("urgentMo") }}
-                        </v-tooltip>
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on, attrs }">
-                            <span
-                              @click="
-                                redirectToDetail(
-                                  lotWip.lotData.lotNo,
-                                  lotWip.dispatchStartDate
-                                )
-                              "
-                              class="headline"
-                              v-bind="attrs"
-                              v-on="on"
-                            >
-                              {{ lotWip.lotData.lotNo }}
-                            </span>
-                          </template>
-                          <span> {{ $t("lot") + $t("No") }}</span>
-                        </v-tooltip>
-                      </v-col>
-
-                      <v-col md="4" class="mt-2 text-right">
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on, attrs }">
-                            <span v-if="lotWip.outQty" v-bind="attrs" v-on="on">
-                              {{ lotWip.outQty + "/" + lotWip.planQty }}
-                            </span>
-                            <span v-else v-bind="attrs" v-on="on">
-                              {{ "0/" + lotWip.planQty }}
-                            </span>
-                          </template>
-                          <span>
-                            {{
-                              $t("outStation") +
-                                $t("count") +
-                                " / " +
-                                $t("expected") +
-                                $t("produce") +
-                                $t("count")
-                            }}</span
-                          >
-                        </v-tooltip>
-                      </v-col>
-                    </v-row>
-                  </v-list-item-subtitle>
-                  <v-divider class="mx-1"></v-divider>
-                  <v-list-item-subtitle class="caption">
-                    {{
-                      $t("startWork") +
-                        $t("time") +
-                        "：" +
-                        new Date(lotWip.actualStartTime).toLocaleString()
-                    }}</v-list-item-subtitle
-                  >
-
-                  <v-list-item-subtitle class="caption">
-                    {{
-                      $t("process") + "：" + lotWip.lotOpData.opName
-                    }}</v-list-item-subtitle
-                  >
-                  <v-list-item-subtitle class="caption">
-                    {{
-                      $t("product") +
-                        "：" +
-                        lotWip.moData.itemNo +
-                        " (" +
-                        lotWip.moData.itemName +
-                        ")"
-                    }}</v-list-item-subtitle
-                  >
-                  <v-list-item-subtitle class="caption">
-                    {{
-                      $t("operator") +
-                        "：" +
-                        lotWip.userNo +
-                        " (" +
-                        lotWip.userName +
-                        ")"
-                    }}</v-list-item-subtitle
-                  >
-                </v-list-item-content>
-              </v-list-item>
-            </div>
-          </v-expand-transition>
-        </v-card>
-      </div>
-    </v-flex>
-    <!-- 稼動率 -->
-    <v-flex xs12 md2 class="pa-2">
-      <div style="font-weight:bold">
-        {{ $t("Utilization") }}
-        <v-divider></v-divider>
-        <v-layout align-center justify-center fill-height>
-          <UtilizationPieChart :data="todaysData" :dates="selectedDates" />
-        </v-layout>
-      </div>
-    </v-flex>
-    <!-- OEE -->
-    <v-flex xs12 md3 class="pa-2">
-      <div style="font-weight:bold">
-        {{ "OEE" }}
-        <v-divider></v-divider>
-        <v-layout align-center justify-center fill-height>
-          <OEEChart :oeeData="oeeData" />
-        </v-layout>
-      </div>
-    </v-flex>
     <!-- TAB -->
     <v-flex xs12 class="pa-2">
-      <div style="text-align: center;font-weight:bold">
+      <div style="text-align: left;font-weight:bold">
         {{ $t("detail") }}
         <v-divider></v-divider>
         <!-- datepicker -->
-        <div style="margin: 0 auto; width: 90%; text-align: center">
-          <v-layout row wrap>
-            <v-flex class="pa-1" xs10>
-              <v-menu
-                ref="menu"
-                v-model="menu"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    @click:clear="onClearClicked()"
-                    v-model="dateRangeText"
-                    :label="$t('select') + $t('date') + $t('range')"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  :events="arrayEvents"
-                  ref="picker"
-                  v-model="dates"
-                  range
-                >
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="menu = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn text color="primary" @click="onCalendarSelected()">
-                    OK
-                  </v-btn>
-                </v-date-picker>
-              </v-menu>
-            </v-flex>
-            <v-flex class="pa-1" xs2>
-              <v-btn
-                block
-                color="primary"
-                outlined
-                style="margin-top: 12px"
-                @click="onSearch"
-                >{{ this.$t("confirm") }}</v-btn
-              >
-            </v-flex>
-          </v-layout>
-        </div>
+
         <!-- tabs -->
         <v-card color="basil">
-          <v-tabs
-            v-model="tab"
-            background-color="white"
-            fixed-tabs
-            slider-color="primary"
-          >
+          <v-tabs v-model="tab" background-color="white" slider-color="primary">
             <v-tab
               style="color:black"
               @click="forceRerender(item.tab)"
@@ -377,94 +237,6 @@
           </v-tabs>
           <v-divider />
           <v-tabs-items v-model="tab">
-            <v-tab-item>
-              <v-layout
-                align-center
-                justify-center
-                column
-                fill-height
-                class="pa-2"
-              >
-                <ScheduledListTable :processData="processData" />
-              </v-layout>
-            </v-tab-item>
-            <v-tab-item>
-              <v-layout
-                align-center
-                justify-center
-                column
-                fill-height
-                class="pa-2"
-              >
-                <MachineStatusTable
-                  :machineStatusData="statusData"
-                  :dates="selectedDates"
-                />
-              </v-layout>
-            </v-tab-item>
-            <v-tab-item>
-              <v-layout
-                align-center
-                justify-center
-                column
-                fill-height
-                class="pa-2"
-              >
-                <UtilizationChart
-                  :data.sync="machineStatusData"
-                  :dates="selectedDates"
-                  :key="utilizationChartKey"
-                />
-              </v-layout>
-            </v-tab-item>
-            <v-tab-item>
-              <v-layout
-                align-center
-                justify-center
-                column
-                fill-height
-                class="pa-2"
-              >
-                <WorkEfficiency
-                  :data.sync="machineStatusData"
-                  :dates="selectedDates"
-                  :key="workEfficiencyChartKey"
-                />
-              </v-layout>
-            </v-tab-item>
-            <v-tab-item>
-              <div class="pa-2">
-                <v-layout column fill-height>
-                  <AlarmCountRanking
-                    :data.sync="machineStatusData"
-                    :dates="selectedDates"
-                    :key="alarmChartKey"
-                  />
-                </v-layout>
-
-                <v-layout column fill-height>
-                  <AlarmTimeRanking
-                    :data.sync="machineStatusData"
-                    :dates="selectedDates"
-                    :key="alarmChartKey"
-                  />
-                </v-layout>
-              </div>
-            </v-tab-item>
-            <v-tab-item>
-              <v-layout
-                align-center
-                justify-center
-                column
-                fill-height
-                class="pa-2"
-              >
-                <ParameterMonitoring
-                  :data="machineData"
-                  @update="updateMachineData()"
-                />
-              </v-layout>
-            </v-tab-item>
             <v-tab-item>
               <v-layout align-center justify-start row fill-height class="pa-2">
                 <v-flex
@@ -482,22 +254,6 @@
                     />
                   </div>
                 </v-flex>
-              </v-layout>
-            </v-tab-item>
-            <v-tab-item>
-              <v-layout
-                align-center
-                justify-center
-                column
-                fill-height
-                class="pa-2"
-              >
-                <MaintenanceTable
-                  :maintenanceData="maintenanceData"
-                  :machineData="machineData"
-                  @update="onSearch"
-                  @updateMachineData="updateMachineData"
-                />
               </v-layout>
             </v-tab-item>
           </v-tabs-items>
@@ -569,15 +325,7 @@
 </template>
 <script>
 import MachineCard from "~/components/machine/MachineCard.vue";
-import MaintenanceTable from "~/components/machine/MaintenanceTable.vue";
-import ScheduledListTable from "~/components/machine/ScheduledListTable.vue";
-import UtilizationChart from "~/components/machine/UtilizationChart.vue";
-import WorkEfficiency from "~/components/machine/WorkEfficiency.vue";
-import AlarmCountRanking from "~/components/machine/AlarmCountRanking.vue";
-import AlarmTimeRanking from "~/components/machine/AlarmTimeRanking.vue";
-import UtilizationPieChart from "~/components/machine/UtilizationPieChart.vue";
-import ParameterMonitoring from "~/components/machine/ParameterMonitoring.vue";
-import OEEChart from "~/components/machine/OEEChart.vue";
+
 import MachiningToolCard from "~/components/machiningTool/MachiningToolCard.vue";
 import moment from "moment";
 import mqtt from "mqtt";
@@ -614,28 +362,9 @@ export default {
         }
       ],
       items: [
-        { tab: this.$t("machineEvent"), icon: "mdi-account-box" },
-        {
-          tab: this.$t("machineUtilization") + this.$t("log"),
-          icon: " mdi-math-log"
-        },
-        { tab: this.$t("machineUtilization"), icon: "mdi-lan-pending" },
-        { tab: this.$t("workEfficiency"), icon: "mdi-access-point" },
-        {
-          tab: this.$t("error") + this.$t("analysis"),
-          icon: "mdi-clipboard-alert"
-        },
-        {
-          tab: this.$t("parameter") + this.$t("monitoring"),
-          icon: "mdi-monitor-eye"
-        },
         {
           tab: this.$t("machineToolMagazine"),
           icon: "mdi-tools"
-        },
-        {
-          tab: this.$t("equipmentMaintenance"),
-          icon: "mdi-clipboard-check-multiple-outline"
         }
       ],
       oeeData: {},
@@ -662,15 +391,6 @@ export default {
     };
   },
   components: {
-    UtilizationChart,
-    ScheduledListTable,
-    MaintenanceTable,
-    WorkEfficiency,
-    AlarmCountRanking,
-    AlarmTimeRanking,
-    UtilizationPieChart,
-    ParameterMonitoring,
-    OEEChart,
     MachiningToolCard
   },
   async asyncData({ app, store, params }) {

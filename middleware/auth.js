@@ -1,10 +1,5 @@
-export default function ({
-  store,
-  error,
-  route,
-  redirect
-}) {
+export default function({ store, error, route, redirect }) {
   if (!store.state.authUser) {
-    return redirect('/login')
+    return redirect("/login");
   }
 }

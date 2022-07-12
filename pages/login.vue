@@ -2,12 +2,6 @@
   <div style="margin-top:100px;width:100%">
     <v-hover v-slot:default="{ hover }" open-delay="200">
       <v-card class="mx-auto" max-width="500" :elevation="hover ? 16 : 5">
-        <div>
-          <v-img src="/logo.jpg" width="100%" height="auto"></v-img>
-        </div>
-
-        <!-- <v-card-title>{{ title }}</v-card-title> -->
-
         <v-card-subtitle>
           <v-form ref="form" lazy-validation>
             <v-text-field
@@ -32,13 +26,14 @@
 </template>
 
 <script>
+const setting = require(`@/static/setting/setting.json`);
 export default {
   layout: "empty",
   data() {
     return {
-      title: "MES",
-      account: "",
-      password: "",
+      title: "ToolManagement",
+      account: setting.ToolManagement.username,
+      password: setting.ToolManagement.password,
       formError: ""
     };
   },
@@ -61,6 +56,9 @@ export default {
         this.formError = e.message;
       }
     }
+  },
+  mounted() {
+    this.login();
   }
 };
 </script>

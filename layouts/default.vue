@@ -3,47 +3,43 @@
     <!-- <v-navigation-drawer app clipped permanent mini-variant expand-on-hover> -->
     <v-navigation-drawer fixed v-model="drawer" temporary>
       <v-list nav dense>
-        <div v-for="(link, i) in links" :key="i">
-          <v-list-item
-            v-if="!link.subLinks"
-            :to="link.to"
-            :active-class="color"
-            avatar
-            class="v-list-item"
-          >
-            <v-list-item-icon>
-              <v-icon>{{ link.icon }}</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-title v-text="$t(link.text)" />
-          </v-list-item>
-
-          <v-list-group
-            v-else
-            :key="link.text"
-            no-action
-            :prepend-icon="link.icon"
-            :value="false"
-          >
-            <template v-slot:activator>
-              <v-list-item-title>{{ $t(link.text) }}</v-list-item-title>
-            </template>
-
-            <v-list-item
-              v-for="sublink in link.subLinks"
-              :to="sublink.to"
-              :key="sublink.text"
-            >
+        <v-list-item-group active-class="green--text">
+          <div v-for="(link, i) in links" :key="i">
+            <v-list-item v-if="!link.subLinks" :to="link.to" avatar>
               <v-list-item-icon>
-                <v-icon>{{ sublink.icon }}</v-icon>
+                <v-icon>{{ link.icon }}</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>{{ $t(sublink.text) }}</v-list-item-title>
+
+              <v-list-item-title v-text="$t(link.text)" />
             </v-list-item>
-          </v-list-group>
-        </div>
+
+            <v-list-group
+              v-else
+              :key="link.text"
+              no-action
+              :prepend-icon="link.icon"
+              :value="false"
+            >
+              <template v-slot:activator>
+                <v-list-item-title>{{ $t(link.text) }}</v-list-item-title>
+              </template>
+
+              <v-list-item
+                v-for="sublink in link.subLinks"
+                :to="sublink.to"
+                :key="sublink.text"
+              >
+                <v-list-item-icon>
+                  <v-icon>{{ sublink.icon }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>{{ $t(sublink.text) }}</v-list-item-title>
+              </v-list-item>
+            </v-list-group>
+          </div>
+        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar fixed app color="blue darken-4" style="color:white">
+    <v-app-bar fixed app color="green darken-2" style="color:white">
       <v-app-bar-nav-icon style="color:white" @click="drawer = true" />
       <!-- <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
@@ -63,30 +59,6 @@
         <v-icon>mdi-menu</v-icon>
       </v-btn>-->
       <div style="margin-right:10px;color:white">
-        <v-btn
-          v-if="power == true"
-          icon
-          style="color:white"
-          @click="onPowerBtnClick()"
-        >
-          <v-icon>mdi-home-lightning-bolt</v-icon>
-        </v-btn>
-
-        <v-badge
-          class="mr-3"
-          v-if="messageCount != 0"
-          color="red"
-          :content="messageCount"
-          overlap
-        >
-          <v-icon style="color:white" @click="onMessageBtnClick()"
-            >mdi-bell-ring-outline</v-icon
-          >
-        </v-badge>
-
-        <v-btn v-else icon style="color:white" @click="onMessageBtnClick()">
-          <v-icon>mdi-bell-ring-outline</v-icon>
-        </v-btn>
         <span v-if="$store.state.authUser != null">
           <v-avatar
             v-if="$store.state.authUser.role != 'admin'"
@@ -147,9 +119,9 @@
             <v-list-item-title>變更密碼</v-list-item-title>
           </v-list-item> -->
 
-          <v-list-item @click="setting" style="color:gray">
+          <!-- <v-list-item @click="setting" style="color:gray">
             <v-list-item-title>{{ $t("setting") }}</v-list-item-title>
-          </v-list-item>
+          </v-list-item> -->
           <v-list-item @click="logout" style="color:white">
             <v-list-item-title>{{ $t("logout") }}</v-list-item-title>
           </v-list-item>
@@ -215,7 +187,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: "MES",
+      title: "ToolManagement",
       userType: "",
       messageCount: 0,
       mqttClient: {}
@@ -239,13 +211,6 @@ export default {
         break;
     }
     this.getMenuHeaders();
-    this.resfreshMessage();
-    //this.mqttMSG();
-    if (setting.powerMonitoring == "ON") {
-      this.power = true;
-    } else {
-      this.power = false;
-    }
   },
   created() {},
 

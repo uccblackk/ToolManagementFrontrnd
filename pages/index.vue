@@ -14,7 +14,7 @@
         >
           <!-- <logo />
         <vuetify-logo /> -->
-          <v-img src="/logo.jpg" width="auto" contain height="100px"></v-img>
+          <!-- <v-img src="/logo.jpg" width="auto" contain height="100px"></v-img> -->
         </div>
       </v-flex>
     </v-layout>

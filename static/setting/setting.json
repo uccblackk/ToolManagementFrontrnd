@@ -42,6 +42,10 @@
     "陶瓷砂轮",
     "金刚修整刀"
   ],
+  "ToolManagement": {
+    "username": "admin",
+    "password": "admin"
+  },
   "mqtt": {
     "url": "ws://localhost:9001/mqtt",
     "username": "itri",

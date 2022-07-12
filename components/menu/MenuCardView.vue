@@ -18,7 +18,7 @@
                 v-for="s in m.subLinks"
                 :key="s.menuNo"
               >
-                <v-tooltip color="#0048a5" bottom>
+                <v-tooltip color="green darken-2" bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-card
                       v-bind="attrs"
@@ -91,7 +91,7 @@ export default {
 
   head() {
     return {
-      title: "MES"
+      title: "首頁"
     };
   },
   methods: {
@@ -129,7 +129,7 @@ export default {
 }
 
 .card:hover {
-  background-color: #0048a5 !important;
+  background-color: #388e3c !important;
   opacity: 1;
   color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
