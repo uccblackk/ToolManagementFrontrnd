@@ -6,7 +6,7 @@
       height="300"
       :elevation="hover ? 6 : 2"
     >
-      <v-system-bar class="blue-grey white--text justify-center" dark>
+      <v-system-bar class="green darken-2 white--text justify-center" dark>
         {{ num }}
       </v-system-bar>
       <div v-if="tool != undefined" class="text-center mx-2">
@@ -50,7 +50,7 @@
       </div>
       <div v-else class="text-center">
         <v-btn
-          class="blue-grey white--text my-15 pa-10 text-center"
+          class="green lighten-2 white--text my-15  text-center"
           height="80"
           @click="bindTool()"
           >{{ $t("bindToolMagazine") }}

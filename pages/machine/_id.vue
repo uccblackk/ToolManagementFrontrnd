@@ -9,7 +9,7 @@
         </template>
       </v-breadcrumbs>
     </v-flex>
-    <v-flex xs12 md6 class="pa-2">
+    <v-flex xs12 md4 class="pa-2">
       <div style="font-weight:bold">
         {{ $t("equipment") }}
         <v-divider></v-divider>
@@ -54,7 +54,7 @@
         </v-row>
       </div>
     </v-flex>
-    <v-flex xs12 md6 class="pa-2">
+    <v-flex xs12 md5 class="pa-2">
       <div style="font-weight:bold">
         {{ $t("machineInfo") }}
       </div>
@@ -122,19 +122,15 @@
             </v-col>
           </v-row>
           <v-row no-gutters>
-            <v-col md="4">
-              <span
-                class="subtitle-2"
-                style="color: gray;font-weight:bold;color:#2E7D32"
+            <v-col md="5">
+              <span class="subtitle-2" style="color: gray;font-weight:bold"
                 >{{ $t("machineToolMagazine") + $t("count") }}：</span
               >
             </v-col>
-            <v-col md="8">
-              <span
-                class="subtitle-2"
-                style="color: gray;font-weight:bold;color:#2E7D32"
-                >{{ Object.keys(machineData.toolMagazine).length }}</span
-              >
+            <v-col md="7">
+              <span class="subtitle-2" style="color: gray;font-weight:bold">{{
+                Object.keys(machineData.toolMagazine).length
+              }}</span>
             </v-col>
           </v-row>
         </v-col>
@@ -214,7 +210,15 @@
         </v-col>
       </v-row>
     </v-flex>
-
+    <v-flex xs12 md3 class="pa-2">
+      <div style="font-weight:bold">
+        {{ $t("machineToolMagazine") + $t("usage") }}
+      </div>
+      <v-divider></v-divider>
+      <v-row>
+        <ToolUsageChart :data="machineData.toolMagazine" />
+      </v-row>
+    </v-flex>
     <!-- TAB -->
     <v-flex xs12 class="pa-2">
       <div style="text-align: left;font-weight:bold">
@@ -263,7 +267,7 @@
       <v-dialog v-model="bindToolDialog" persistent max-width="600px">
         <template v-slot:activator="{ on, attrs }"> </template>
         <v-card ref="form">
-          <v-card-title class="info">
+          <v-card-title class="success">
             <span class=" headline white--text">
               {{ $t("tool") + $t("No") + "-" + bindToolForm.toolNum }}</span
             >
@@ -302,7 +306,7 @@
             <v-btn class="gray" @click="bindToolDialog = false">{{
               $t("cancel")
             }}</v-btn>
-            <v-btn class="info" dark text @click="bindTool()">
+            <v-btn class="success" dark text @click="bindTool()">
               {{ $t("confirm") }}
             </v-btn>
           </v-card-actions>
@@ -311,7 +315,7 @@
       <v-dialog v-model="elapsedTimeDialog" persistent max-width="600px">
         <template v-slot:activator="{ on, attrs }"> </template>
         <v-card ref="form">
-          <v-card-title class="info">
+          <v-card-title class="success">
             <span class=" headline white--text">
               {{
                 $t("tool") + $t("elapsedTime") + "-" + updateToolForm.toolNum
@@ -352,7 +356,7 @@
             <v-btn class="gray" @click="elapsedTimeDialog = false">{{
               $t("cancel")
             }}</v-btn>
-            <v-btn class="info" dark text @click="UpdateTool()">
+            <v-btn class="success" dark text @click="UpdateTool()">
               {{ $t("confirm") }}
             </v-btn>
           </v-card-actions>
@@ -363,7 +367,7 @@
 </template>
 <script>
 import MachineCard from "~/components/machine/MachineCard.vue";
-
+import ToolUsageChart from "~/components/machine/ToolUsageChart.vue";
 import MachiningToolCard from "~/components/machiningTool/MachiningToolCard.vue";
 import moment from "moment";
 import mqtt from "mqtt";
@@ -438,7 +442,8 @@ export default {
     };
   },
   components: {
-    MachiningToolCard
+    MachiningToolCard,
+    ToolUsageChart
   },
   async asyncData({ app, store, params }) {
     const token = store.state.authUser.token;

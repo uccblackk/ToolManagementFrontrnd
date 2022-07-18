@@ -390,5 +390,6 @@
   "expire": "到期",
   "publish": "發送",
   "roleManagement": "角色管理",
-  "read": "讀"
+  "read": "讀",
+  "usage": "使用率"
 }
